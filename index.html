@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folder Structure Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📂 Folder Structure Explorer</h1>
+            <div class="input-group">
+                <div class="github-section">
+                    <input type="text" 
+                           id="githubRepo" 
+                           class="input-field"
+                           placeholder="Enter GitHub repo URL">
+                    <button class="primary-btn" onclick="loadGitHubRepo()">
+                        🌐 Generate Tree
+                    </button>
+                </div>
+                <label class="file-upload-btn">
+                    <input type="file" 
+                           id="folderInput" 
+                           webkitdirectory 
+                           directory 
+                           multiple 
+                           hidden>
+                    📁 Choose Folder
+                </label>
+            </div>
+            
+            <div class="ignore-section">
+                <h3>Ignored Patterns <small>(Click × to remove)</small></h3>
+                <div class="ignore-patterns-container" id="ignoreList"></div>
+                <div class="add-pattern">
+                    <input type="text" 
+                           id="newPattern" 
+                           class="input-field"
+                           placeholder="Add patterns (comma separated)">
+                    <button class="primary-btn" onclick="addPatterns()">Add</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="control-header">
+                <div class="stats-box">
+                    <span>📄 Files: <span id="totalFiles">0</span></span>
+                    <span>📁 Folders: <span id="totalFolders">0</span></span>
+                    <span>📦 File Types: <span id="fileTypes">0</span></span>
+                </div>
+                <div class="action-buttons">
+                    <button class="primary-btn" onclick="toggleAll(true)">⬇ Expand All</button>
+                    <button class="primary-btn" onclick="toggleAll(false)">⬆ Collapse All</button>
+                    <button class="primary-btn copy-btn" onclick="copyStructure()">📋 Copy All</button>
+                </div>
+            </div>
+            <div id="folderStructure" class="structure-container"></div>
+            <div id="loading" class="loading-overlay">
+                <div class="spinner"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
