@@ -12,13 +12,15 @@
             <h1>📂 Folder Structure Explorer</h1>
             <div class="input-group">
                 <div class="github-section">
-                    <input type="text" 
-                           id="githubRepo" 
-                           class="input-field"
-                           placeholder="Enter GitHub repo URL">
-                    <button class="primary-btn" onclick="loadGitHubRepo()">
-                        🌐 Generate Tree
-                    </button>
+                    <div class="search-box">
+                        <input type="text" 
+                               id="githubRepo" 
+                               class="input-field"
+                               placeholder="Enter GitHub repo URL">
+                        <button class="primary-btn generate-btn" onclick="loadGitHubRepo()">
+                            🌐 Generate Tree
+                        </button>
+                    </div>
                 </div>
                 <label class="file-upload-btn">
                     <input type="file" 

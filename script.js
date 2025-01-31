@@ -5,7 +5,7 @@ const defaultIgnorePatterns = [
     'pnpm-lock.yaml', '*.mp4', '*.mov', '*.avi', '*.wav', '*.psd',
     '*.ai', '*.log', 'npm-debug.log*', 'yarn-debug.log*',
     'yarn-error.log*', '.npm', '.yarn', '.settings', '*.swp',
-    '*.swo', '.project', '.classpath', 'Thumbs.db', 'desktop.ini'
+    '*.swo', '.project', '.classpath', 'Thumbs.db', 'desktop.ini ', '.gitignore'
 ];
 
 let currentStructure = null;
@@ -167,7 +167,10 @@ function displayStructure(structure) {
 
 function generateStructureHTML(structure, indent = 0, path = '') {
     let html = '';
-    Object.entries(structure).forEach(([name, value]) => {
+    // Sort folders and files in ascending order
+    const sortedEntries = Object.entries(structure).sort(([a], [b]) => a.localeCompare(b));
+
+    sortedEntries.forEach(([name, value]) => {
         const isFile = value.isFile;
         const currentPath = path ? `${path}/${name}` : name;
         
@@ -234,10 +237,11 @@ function copyStructure() {
 
 function generateTextStructure(structure, indent = 0, prefix = '') {
     let text = '';
-    const entries = Object.entries(structure);
-    const lastIndex = entries.length - 1;
+    // Sort folders and files in ascending order
+    const sortedEntries = Object.entries(structure).sort(([a], [b]) => a.localeCompare(b));
+    const lastIndex = sortedEntries.length - 1;
 
-    entries.forEach(([name, value], index) => {
+    sortedEntries.forEach(([name, value], index) => {
         const isLast = index === lastIndex;
         const currentPrefix = isLast ? '└── ' : '├── ';
         const nextPrefix = isLast ? '    ' : '│   ';

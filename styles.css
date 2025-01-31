@@ -44,6 +44,23 @@ body {
     margin-bottom: 2rem;
 }
 
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.search-box .input-field {
+    flex: 1;
+    margin: 0;
+}
+
+.generate-btn {
+    white-space: nowrap;
+    margin: 0;
+}
+
 .input-field {
     padding: 0.75rem 1rem;
     border: 2px solid var(--border-color);
@@ -267,4 +284,20 @@ body {
 
 .collapsed .folder-contents {
     display: none;
+}
+
+@media (max-width: 600px) {
+    .input-group {
+        flex-direction: column;
+    }
+
+    .search-box {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .search-box .input-field,
+    .generate-btn {
+        width: 100%;
+    }
 }
