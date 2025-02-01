@@ -5,7 +5,7 @@ const defaultIgnorePatterns = [
     'pnpm-lock.yaml', '*.mp4', '*.mov', '*.avi', '*.wav', '*.psd',
     '*.ai', '*.log', 'npm-debug.log*', 'yarn-debug.log*',
     'yarn-error.log*', '.npm', '.yarn', '.settings', '*.swp',
-    '*.swo', '.project', '.classpath', 'Thumbs.db', 'desktop.ini ', '.gitignore'
+    '*.swo', '.project', '.classpath', 'Thumbs.db', 'desktop.ini', '.gitignore'
 ];
 
 let currentStructure = null;
@@ -20,6 +20,7 @@ renderIgnorePatterns();
 
 // Event Listeners
 document.getElementById('folderInput').addEventListener('change', handleFileInput);
+document.getElementById('searchInput').addEventListener('input', handleSearch);
 
 function handleFileInput(e) {
     const files = Array.from(e.target.files);
@@ -266,4 +267,34 @@ function showLoading() {
 
 function hideLoading() {
     document.getElementById('loading').style.display = 'none';
+}
+
+// Search Functionality
+function handleSearch() {
+    const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (!currentStructure) return;
+
+    const filteredStructure = filterStructure(currentStructure, searchQuery);
+    displayStructure(filteredStructure);
+}
+
+function filterStructure(structure, searchQuery) {
+    const filtered = {};
+    Object.entries(structure).forEach(([name, value]) => {
+        const isMatch = name.toLowerCase().includes(searchQuery);
+        const isFolder = !value.isFile;
+
+        if (isMatch) {
+            // If the current item matches, include it and all its children
+            filtered[name] = value;
+        } else if (isFolder) {
+            // If it's a folder, check its children recursively
+            const filteredChildren = filterStructure(value.children, searchQuery);
+            if (Object.keys(filteredChildren).length > 0) {
+                // If any children match, include the folder and the matching children
+                filtered[name] = { ...value, children: filteredChildren };
+            }
+        }
+    });
+    return filtered;
 }

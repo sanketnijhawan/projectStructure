@@ -140,6 +140,13 @@ body {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    max-width: 200px;
+    margin: 0;
 }
 
 .copy-btn {
@@ -299,5 +306,14 @@ body {
     .search-box .input-field,
     .generate-btn {
         width: 100%;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input {
+        max-width: 100%;
     }
 }

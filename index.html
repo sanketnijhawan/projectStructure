@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Structure</title>
+    <title>ProjectStructure</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>📂 Project Structure</h1>
+            <h1>📂 ProjectStructure</h1>
             <div class="input-group">
                 <div class="github-section">
                     <div class="search-box">
@@ -54,6 +54,10 @@
                     <span>📦 File Types: <span id="fileTypes">0</span></span>
                 </div>
                 <div class="action-buttons">
+                    <input type="text" 
+                           id="searchInput" 
+                           class="input-field search-input"
+                           placeholder="🔍 Search files/folders">
                     <button class="primary-btn" onclick="toggleAll(true)">⬇ Expand All</button>
                     <button class="primary-btn" onclick="toggleAll(false)">⬆ Collapse All</button>
                     <button class="primary-btn copy-btn" onclick="copyStructure()">📋 Copy All</button>
