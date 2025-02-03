@@ -293,8 +293,118 @@ function filterStructure(structure, searchQuery) {
             if (Object.keys(filteredChildren).length > 0) {
                 // If any children match, include the folder and the matching children
                 filtered[name] = { ...value, children: filteredChildren };
+
+                
             }
         }
     });
     return filtered;
 }
+
+// ... (keep the existing code above unchanged)
+
+function removePattern(pattern) {
+    ignorePatterns = ignorePatterns.filter(p => p !== pattern);
+    renderIgnorePatterns();
+    refreshTree(); // Refresh the tree dynamically
+}
+
+function addPatterns() {
+    const input = document.getElementById('newPattern').value;
+    const newPatterns = input.split(',').map(p => p.trim()).filter(p => p);
+    ignorePatterns = [...new Set([...ignorePatterns, ...newPatterns])];
+    document.getElementById('newPattern').value = '';
+    renderIgnorePatterns();
+    refreshTree(); // Refresh the tree dynamically
+}
+
+function refreshTree() {
+    if (!currentStructure) return;
+
+    // Filter the current structure based on updated ignore patterns
+    const filteredStructure = filterStructureByIgnorePatterns(currentStructure);
+    displayStructure(filteredStructure);
+}
+
+function filterStructureByIgnorePatterns(structure) {
+    const filtered = {};
+    Object.entries(structure).forEach(([name, value]) => {
+        const path = name.split('/');
+        if (shouldIgnore(path)) return; // Skip if the path matches any ignore pattern
+
+        if (value.isFile) {
+            // If it's a file, include it directly
+            filtered[name] = value;
+        } else {
+            // If it's a folder, recursively filter its children
+            const filteredChildren = filterStructureByIgnorePatterns(value.children);
+            if (Object.keys(filteredChildren).length > 0) {
+                filtered[name] = { ...value, children: filteredChildren };
+            }
+        }
+    });
+    return filtered;
+}
+
+// ... (keep the existing code below unchanged)
+
+// ... (keep the existing code above unchanged)
+
+function refreshTree() {
+    if (!currentStructure) return;
+
+    // Reset counters before filtering
+    resetCounters();
+
+    // Filter the current structure based on updated ignore patterns
+    const filteredStructure = filterStructureByIgnorePatterns(currentStructure);
+    displayStructure(filteredStructure);
+
+    // Update stats after filtering
+    updateStats();
+}
+
+function filterStructureByIgnorePatterns(structure) {
+    const filtered = {};
+    Object.entries(structure).forEach(([name, value]) => {
+        const path = name.split('/');
+        if (shouldIgnore(path)) return; // Skip if the path matches any ignore pattern
+
+        if (value.isFile) {
+            // If it's a file, include it directly and update counters
+            filtered[name] = value;
+            updateCounters(true, name); // Update file count and file types
+        } else {
+            // If it's a folder, recursively filter its children
+            const filteredChildren = filterStructureByIgnorePatterns(value.children);
+            if (Object.keys(filteredChildren).length > 0) {
+                filtered[name] = { ...value, children: filteredChildren };
+                updateCounters(false, name); // Update folder count
+            }
+        }
+    });
+    return filtered;
+}
+
+function toggleAll(expand) {
+    const folders = document.getElementsByClassName('folder-item');
+    Array.from(folders).forEach(folder => {
+        const contents = folder.nextElementSibling;
+        folder.classList.toggle('expanded', expand);
+        folder.classList.toggle('collapsed', !expand);
+        contents.style.display = expand ? 'block' : 'none';
+    });
+}
+
+function copyStructure() {
+    if (!currentStructure) return;
+
+    // Generate the text structure based on the current filtered structure
+    const statsText = `Files: ${totalFiles}\nFolders: ${totalFolders}\nFile Types: ${fileTypes.size}\n\n`;
+    const structureText = `${rootName}/\n${generateTextStructure(currentStructure)}`;
+    navigator.clipboard.writeText(statsText + structureText)
+        .then(() => alert('Structure copied to clipboard!'))
+        .catch(err => console.error('Failed to copy:', err));
+}
+
+// ... (keep the existing code below unchanged)

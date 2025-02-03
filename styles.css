@@ -317,3 +317,27 @@ body {
         max-width: 100%;
     }
 }
+
+.github-profile-btn {
+    position: absolute;
+    left: 790px;
+    top: 95px;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.github-profile-btn svg {
+    fill: currentColor;
+    width: 32px;
+    height: 32px;
+}
+
+.github-profile-btn:hover {
+    transform: scale(1.1);
+    color: var(--secondary-color);
+}
+
+.header {
+    position: relative;
+}
